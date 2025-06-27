@@ -1556,10 +1556,10 @@ export default function Portfolio() {
               </motion.p>
 
               {/* BUTTONS */}
-              <div className="flex flex-row gap-3 mb-2">
+              <div className="flex flex-col md:flex-row gap-2 md:gap-3 mb-2 w-full">
                 <MagneticButton
                   size="lg"
-                  className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 text-lg font-semibold rounded-lg border-0 shadow-lg hover:shadow-blue-500/20 transition-all duration-200"
+                  className="flex items-center justify-center w-full xs:w-auto bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 text-lg font-semibold rounded-lg border-0 shadow-lg hover:shadow-blue-500/20 transition-all duration-200"
                   onClick={() => {
                     const el = document.getElementById('projects');
                     if (el) {
@@ -1567,7 +1567,7 @@ export default function Portfolio() {
                     }
                   }}
                 >
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center justify-center gap-2 w-full">
                     {(() => {
                       const IconComponent = getIconComponent(
                         siteConfig.hero.buttons.primary.icon
@@ -1581,9 +1581,9 @@ export default function Portfolio() {
                 <MagneticButton
                   size="lg"
                   onClick={handleBookCall}
-                  className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 hover:from-cyan-500/20 hover:to-blue-500/20 border-2 border-cyan-400/50 hover:border-cyan-400 text-cyan-400 hover:text-cyan-300 px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-cyan-500/20 transition-all duration-200"
+                  className="flex items-center justify-center w-full xs:w-auto bg-gradient-to-r from-cyan-500/10 to-blue-500/10 hover:from-cyan-500/20 hover:to-blue-500/20 border-2 border-cyan-400/50 hover:border-cyan-400 text-cyan-400 hover:text-cyan-300 px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-cyan-500/20 transition-all duration-200"
                 >
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center justify-center gap-2 w-full">
                     {(() => {
                       const IconComponent = getIconComponent(
                         siteConfig.hero.buttons.secondary.icon
@@ -1794,16 +1794,16 @@ export default function Portfolio() {
             {/* Terminal Window */}
             <div className="bg-gray-900/90 backdrop-blur-sm border border-gray-700/50 rounded-xl shadow-2xl shadow-black/50 overflow-hidden">
               {/* Terminal Header */}
-              <div className="flex items-center justify-between px-4 py-3 bg-gray-800/50 border-b border-gray-700/50">
+              <div className="flex flex-wrap items-center justify-between gap-2 xs:gap-4 px-2 xs:px-4 py-2 xs:py-3 bg-gray-800/50 border-b border-gray-700/50">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                   <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                   <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col xs:flex-row gap-1 xs:gap-4 w-full xs:w-auto min-w-0 overflow-x-auto">
                   <button
                     onClick={() => setActiveTerminal("demo")}
-                    className={`font-mono text-sm px-3 py-1 rounded transition-colors ${
+                    className={`font-mono text-xs xs:text-sm w-full xs:w-auto px-3 py-1 rounded transition-colors truncate ${
                       activeTerminal === "demo"
                         ? "bg-blue-500/20 text-blue-400"
                         : "text-gray-400 hover:text-gray-300"
@@ -1813,7 +1813,7 @@ export default function Portfolio() {
                   </button>
                   <button
                     onClick={() => setActiveTerminal("interactive")}
-                    className={`font-mono text-sm px-3 py-1 rounded transition-colors ${
+                    className={`font-mono text-xs xs:text-sm w-full xs:w-auto px-3 py-1 rounded transition-colors truncate ${
                       activeTerminal === "interactive"
                         ? "bg-blue-500/20 text-blue-400"
                         : "text-gray-400 hover:text-gray-300"
@@ -1826,7 +1826,7 @@ export default function Portfolio() {
               </div>
 
               {/* Terminal Content */}
-              <div className="p-6 font-mono text-sm leading-relaxed min-h-[400px]">
+              <div className="p-6 font-mono text-sm leading-relaxed min-h-[400px] overflow-x-auto">
                 {activeTerminal === "demo" ? (
                   <TerminalOutput />
                 ) : (
@@ -1875,7 +1875,7 @@ export default function Portfolio() {
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
 
                   {/* Icon, Title, Role Row */}
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 mb-2 relative z-10">
+                  <div className="flex flex-col md:flex-row items-center md:items-center md:justify-between gap-2 md:gap-4 mb-2 relative z-10">
                     <div className="flex items-center gap-3">
                       <motion.div
                         whileHover={{ rotate: 5, scale: 1.1 }}
@@ -1887,7 +1887,7 @@ export default function Portfolio() {
                         {project.title}
                       </h3>
                     </div>
-                    <span className="font-mono text-xs text-blue-400 bg-blue-500/10 border border-blue-500/20 rounded-full px-3 py-1 mt-1 md:mt-0 md:ml-4 w-max">
+                    <span className="font-mono text-xs text-blue-400 bg-blue-500/10 border border-blue-500/20 rounded-full px-3 py-1 mt-1 md:mt-0 mx-0 md:ml-4 max-w-full break-words text-left">
                       {project.role}
                     </span>
                   </div>
@@ -2235,7 +2235,7 @@ export default function Portfolio() {
 
                     <div className="flex items-center gap-2 text-blue-400">
                       <span>$</span>
-                      <span>send_message --to hello@backend-first.dev</span>
+                      <span>send_message --to {siteConfig.contact.email}</span>
                     </div>
                     <div className="text-green-400 ml-4">
                       ✓ Message sent successfully!
@@ -2323,25 +2323,22 @@ export default function Portfolio() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
                   viewport={{ once: true }}
-                  className="flex items-center gap-2 text-blue-400 mb-2"
+                  className="flex items-center flex-wrap gap-2 text-blue-400 mb-2 w-full break-words"
                 >
-                  <span className="font-mono text-sm">$</span>
+                  <span className="font-mono text-sm flex-shrink-0">$</span>
                   <motion.span
                     initial={{ width: 0 }}
-                    whileInView={{ width: "auto" }}
+                    whileInView={{ width: 'auto' }}
                     transition={{ duration: 1.2, delay: 0.8 }}
                     viewport={{ once: true }}
-                    className="font-mono text-sm overflow-hidden whitespace-nowrap"
+                    className="font-mono text-sm overflow-hidden whitespace-normal w-full"
+                    style={{ display: 'inline-block' }}
                   >
                     {siteConfig.footer.terminalCommand}
                   </motion.span>
                   <motion.span
                     animate={{ opacity: [1, 0, 1] }}
-                    transition={{
-                      duration: 1,
-                      repeat: Number.POSITIVE_INFINITY,
-                      delay: 2,
-                    }}
+                    transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, delay: 2 }}
                     className="bg-blue-400 text-gray-900 px-1 font-mono text-sm"
                   >
                     █
