@@ -1,16 +1,30 @@
-## Hi there 👋
+```shell
+$ whoami
+rohit
+backend-first developer
+```
 
-<!--
-**itisrohit/itisrohit** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+```shell
+$ stack --langs
+TypeScript · Python · Rust · C++
+```
 
-Here are some ideas to get you started:
+```shell
+$ stack --tools
+Nix · Make · Git · Docker
+```
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+```shell
+$ ps aux | grep rohit
+rohit    systems-thinking     RUNNING
+rohit    backend-architecture RUNNING
+rohit    tinkering            RUNNING
+```
+
+```shell
+$ id
+uid=1000(rohit) gid=1000(rohit) groups=rohit
+# backend-first
+# minimalist
+# systems > trends
+```
