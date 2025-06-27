@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://itisrohit.dev'),
+  metadataBase: new URL('https://rohx.vercel.app/'),
   alternates: {
     canonical: '/',
   },
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: 'Rohit Kumar | Backend-Focused Fullstack Developer',
     description:
       'Focused on clean APIs, stable infrastructure, and practical systems that scale.',
-    url: 'https://itisrohit.dev',
+    url: 'https://rohx.vercel.app/',
     siteName: 'Rohit Kumar Portfolio',
     locale: 'en_US',
     type: 'website',

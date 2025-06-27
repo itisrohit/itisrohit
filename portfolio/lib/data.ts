@@ -13,7 +13,7 @@ export interface Commands {
 export const siteConfig = {
   // Basic site info
   title: "Fullstack Developer | TypeScript & Node.js",
-  domain: "rohit.dev",
+  domain: "rohx.vercel.app",
   email: "dv6510@gmail.com",
   location: "Remote (India-based)",
   
@@ -29,7 +29,7 @@ export const siteConfig = {
   hero: {
     badge: {
       icon: "Terminal",
-      text: "backend-first.dev",
+      text: "rohx.vercel.app",
     },
     headline: {
       primary: "I Build Fast Systems",
