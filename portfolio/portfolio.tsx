@@ -1135,11 +1135,54 @@ function CardTitleWithTooltip({
   useEffect(() => {
     if (showTooltip && ref.current) {
       const rect = ref.current.getBoundingClientRect();
-      setCoords({
-        left: rect.left + 16, // 16px right of the left edge
-        top: rect.bottom + 8, // 8px below
-        width: rect.width,
-      });
+      
+      // Only apply responsive positioning on smaller screens
+      if (typeof window !== "undefined" && window.innerWidth < 768) {
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        
+        // Calculate available space
+        const spaceBelow = viewportHeight - rect.bottom;
+        const spaceAbove = rect.top;
+        
+        let left = rect.left + 16;
+        let top = rect.bottom + 8;
+        
+        // If not enough space below, position above
+        if (spaceBelow < 40 && spaceAbove >= 40) {
+          top = rect.top - 40;
+        }
+        
+        // Ensure tooltip doesn't go off-screen horizontally with generous margins
+        const tooltipWidth = Math.min(rect.width, viewportWidth - 80); // 40px margin on each side
+        if (left + tooltipWidth > viewportWidth - 40) {
+          left = viewportWidth - tooltipWidth - 40;
+        }
+        if (left < 40) {
+          left = 40;
+        }
+        
+        // Ensure tooltip doesn't go off-screen vertically with generous margins
+        if (top + 40 > viewportHeight - 40) {
+          top = viewportHeight - 40 - 40;
+        }
+        if (top < 40) {
+          top = 40;
+        }
+        
+        setCoords({
+          left,
+          top,
+          width: tooltipWidth,
+        });
+      } else {
+        // Original desktop behavior
+        setCoords({
+          left: rect.left + 16,
+          top: rect.bottom + 8,
+          width: rect.width,
+        });
+      }
     }
   }, [showTooltip]);
 
@@ -1159,14 +1202,24 @@ function CardTitleWithTooltip({
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
-              className="fixed bg-gray-900/95 backdrop-blur-sm border border-gray-700/50 rounded px-3 py-1 whitespace-nowrap z-[9999] shadow-xl pointer-events-none"
+              className="fixed bg-gray-900/95 backdrop-blur-sm border border-gray-700/50 rounded px-3 py-1 z-[9999] shadow-xl pointer-events-none"
               style={{
                 left: coords.left,
                 top: coords.top,
                 minWidth: coords.width,
+                // Only apply responsive text wrapping on mobile
+                ...(typeof window !== "undefined" && window.innerWidth < 768 && {
+                  maxWidth: 'calc(100vw - 80px)', // 40px margin on each side
+                  whiteSpace: 'normal',
+                }),
+                ...(typeof window !== "undefined" && window.innerWidth >= 768 && {
+                  whiteSpace: 'nowrap',
+                }),
               }}
             >
-              <span className="text-gray-400 font-mono text-sm">{tooltip}</span>
+              <span className="text-gray-400 font-mono text-sm">
+                {tooltip}
+              </span>
             </motion.div>,
             document.body
           )
@@ -1875,21 +1928,24 @@ export default function Portfolio() {
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
 
                   {/* Icon, Title, Role Row */}
-                  <div className="flex flex-col md:flex-row items-center md:items-center md:justify-between gap-2 md:gap-4 mb-2 relative z-10">
-                    <div className="flex items-center gap-3">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-3 sm:gap-4 mb-2 relative z-10">
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
                       <motion.div
                         whileHover={{ rotate: 5, scale: 1.1 }}
                         transition={{ duration: 0.2 }}
+                        className="flex-shrink-0"
                       >
                         <Terminal className="w-5 h-5 text-blue-400" />
                       </motion.div>
-                      <h3 className="text-2xl font-extrabold text-white font-mono mb-1">
+                      <h3 className="text-xl sm:text-2xl font-extrabold text-white font-mono mb-0 min-w-0">
                         {project.title}
                       </h3>
                     </div>
-                    <span className="font-mono text-xs text-blue-400 bg-blue-500/10 border border-blue-500/20 rounded-full px-3 py-1 mt-1 md:mt-0 mx-0 md:ml-4 max-w-full break-words text-left">
-                      {project.role}
-                    </span>
+                    <div className="relative group/role w-full sm:w-auto">
+                      <span className="font-mono font-normal text-xs text-blue-400 bg-blue-500/10 border border-blue-500/20 rounded-full px-2 sm:px-3 py-0.5 sm:py-1 block w-full text-center sm:inline-block sm:w-auto sm:max-w-max sm:text-left sm:whitespace-nowrap break-words mt-2 sm:mt-0">
+                        {project.role}
+                      </span>
+                    </div>
                   </div>
                   {/* Description */}
                   <p className="text-base text-gray-400 leading-relaxed mb-2 relative z-10">
@@ -2284,7 +2340,7 @@ export default function Portfolio() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: false, amount: 0.3 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="bg-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-lg p-4 hover:border-blue-500/30 transition-colors duration-300 relative overflow-hidden"
+                className="bg-gray-900/50 backdrop-blur-sm border border-gray-700/50 rounded-lg p-4 hover:border-blue-500/30 transition-colors duration-300 relative overflow-hidden min-h-[80px]"
               >
                 {/* Terminal particle burst on hover */}
                 <motion.div
@@ -2323,22 +2379,34 @@ export default function Portfolio() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 }}
                   viewport={{ once: true }}
-                  className="flex items-center flex-wrap gap-2 text-blue-400 mb-2 w-full break-words"
+                  className="flex items-center gap-2 text-blue-400 mb-2 overflow-hidden"
                 >
-                  <span className="font-mono text-sm flex-shrink-0">$</span>
+                  <span className="font-mono text-sm">$</span>
                   <motion.span
                     initial={{ width: 0 }}
                     whileInView={{ width: 'auto' }}
                     transition={{ duration: 1.2, delay: 0.8 }}
                     viewport={{ once: true }}
-                    className="font-mono text-sm overflow-hidden whitespace-normal w-full"
-                    style={{ display: 'inline-block' }}
+                    className="font-mono text-sm overflow-hidden whitespace-nowrap inline-block"
+                    style={{
+                      maxWidth: typeof window !== "undefined" && window.innerWidth < 768 
+                        ? 'calc(100vw - 120px)' // Account for $ symbol, cursor, and margins
+                        : 'auto'
+                    }}
                   >
                     {siteConfig.footer.terminalCommand}
                   </motion.span>
                   <motion.span
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
                     animate={{ opacity: [1, 0, 1] }}
-                    transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, delay: 2 }}
+                    transition={{ 
+                      duration: 0.3, 
+                      delay: 2,
+                      repeat: Number.POSITIVE_INFINITY, 
+                      repeatDelay: 0.5
+                    }}
                     className="bg-blue-400 text-gray-900 px-1 font-mono text-sm"
                   >
                     █
