@@ -1,6 +1,5 @@
 ```shell
 $ whoami
-rohit
 backend-first developer
 ```
 
