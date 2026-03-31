@@ -5,6 +5,19 @@
   --foreground: #111111;
 }
 
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
 /* Fix for custom highlight color across the app */
 ::selection {
   background-color: #73BEB1;
