@@ -2,6 +2,7 @@
 
 import { useRef} from "react";
 import Image from "next/image";
+import mainPortrait from "../../public/mainpic.png";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -277,22 +278,22 @@ export default function Home() {
         >
           <div className="paper-cutout absolute inset-0 flex items-center justify-center pointer-events-none">
             <Image
-              src="/mainpic.png"
+              src={mainPortrait}
               alt=""
-              width={1200}
-              height={1200}
-              priority
+              loading="eager"
+              sizes="(max-width: 640px) 85vw, 550px"
               draggable={false}
               className="h-auto w-full select-none object-contain"
               style={{ height: "auto" }}
             />
           </div>
           <Image
-            src="/mainpic.png"
+            src={mainPortrait}
             alt="Rohit Kumar portrait cutout"
-            width={1200}
-            height={1200}
-            priority
+            preload
+            fetchPriority="high"
+            decoding="sync"
+            sizes="(max-width: 640px) 85vw, 550px"
             draggable={false}
             className="relative h-auto w-full pointer-events-none select-none object-contain"
             style={{ height: "auto" }}
