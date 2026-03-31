@@ -437,20 +437,43 @@ export default function Home() {
         >
           <div className="flex justify-end pt-4">
             <p data-animate className="font-mono text-[10px] font-medium leading-none tracking-[0.3em] text-black/40 uppercase">
-              Bun / Node.js / Next.js
+              Available for select work
             </p>
           </div>
           <div className="flex items-end justify-between pb-12">
-            <div data-animate className="flex flex-col gap-1">
+            <div data-animate className="max-w-[30rem] flex flex-col gap-3">
               <h2 className="text-3xl font-black leading-tight tracking-tight tracking-[-0.05em] text-black uppercase">
                 Backend First Developer
               </h2>
               <p className="text-[11px] font-black tracking-[0.1em] text-[#73BEB1] uppercase">
                 Architecture / Core Systems
               </p>
+              <p className="max-w-[34ch] text-sm leading-6 text-black/60">
+                I build scalable backend systems, APIs, and product architecture for web products that need
+                speed, reliability, and clean execution.
+              </p>
+              <p className="font-mono text-[10px] tracking-[0.22em] text-black/36 uppercase">
+                Bun / Node.js / Next.js / Distributed systems / Open for select work
+              </p>
             </div>
-            <p data-animate className="text-[10px] font-medium leading-none tracking-[0.4em] text-black/30 uppercase">
-              v1.0 / Archive
+            <div data-animate className="flex items-center gap-3">
+              <span className="pointer-events-auto inline-flex cursor-pointer items-center border border-black/10 px-3 py-2 font-mono text-[10px] font-medium leading-none tracking-[0.24em] text-black/38 uppercase transition-all duration-300 hover:-translate-y-[1px] hover:border-black/20 hover:bg-black hover:text-[#FAF9F6]">
+                Resume / Soon
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="absolute inset-x-0 bottom-0 z-20 px-6 pb-8 sm:px-10 md:hidden">
+          <div data-animate className="max-w-[22rem] space-y-2">
+            <h2 className="text-2xl font-black leading-tight tracking-[-0.05em] text-black uppercase">
+              Backend First Developer
+            </h2>
+            <p className="text-[10px] font-black tracking-[0.12em] text-[#73BEB1] uppercase">
+              Architecture / Core Systems
+            </p>
+            <p className="max-w-[28ch] text-sm leading-6 text-black/60">
+              I build scalable backend systems, APIs, and product architecture for fast-moving web products.
             </p>
           </div>
         </div>
