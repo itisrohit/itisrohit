@@ -597,21 +597,39 @@ export default function Home() {
       <section className="relative z-20 mx-auto w-full max-w-7xl px-6 py-24 sm:px-10 lg:px-12 lg:py-32">
         <div className="grid gap-14 lg:grid-cols-[minmax(280px,0.72fr)_minmax(0,1.28fr)] lg:gap-20">
           <div className="lg:sticky lg:top-16 lg:self-start">
-            <div className="space-y-6 border-b border-black/8 pb-10 lg:border-b-0 lg:pb-0">
-              <span className="inline-flex items-center gap-3 text-[10px] font-black tracking-[0.4em] text-[#73BEB1] uppercase">
-                <span className="h-px w-8 bg-[#73BEB1]/50" />
-                Archive.02
-              </span>
-              <h3 className="max-w-[11ch] text-4xl font-black uppercase leading-[0.92] tracking-[-0.06em] text-black sm:text-5xl lg:text-[4.8rem]">
-                System Capabilities
-              </h3>
-              <p className="max-w-sm text-sm font-medium leading-8 tracking-[0.12em] text-black/48 uppercase sm:text-[13px]">
-                Operational stack / architecture grammar / deploy surface
-              </p>
-              <p className="max-w-sm text-base leading-8 text-black/58 sm:text-lg">
-                I changed this away from matching cards. Current references lean toward editorial contrast:
-                one anchored narrative column and one flowing capability ledger.
-              </p>
+            <div className="border-b border-black/8 pb-10 lg:flex lg:min-h-[calc(100vh-4rem)] lg:flex-col lg:justify-between lg:border-b-0 lg:pb-0">
+              <div className="space-y-6">
+                <span className="inline-flex items-center gap-3 text-[10px] font-black tracking-[0.4em] text-[#73BEB1] uppercase">
+                  <span className="h-px w-8 bg-[#73BEB1]/50" />
+                  Archive.02
+                </span>
+                <h3 className="max-w-[11ch] text-4xl font-black uppercase leading-[0.92] tracking-[-0.06em] text-black sm:text-5xl lg:text-[4.8rem]">
+                  System Capabilities
+                </h3>
+                <p className="max-w-sm text-sm font-medium leading-8 tracking-[0.12em] text-black/48 uppercase sm:text-[13px]">
+                  Operational stack / architecture grammar / deploy surface
+                </p>
+                <p className="max-w-sm text-base leading-8 text-black/58 sm:text-lg">
+                  I changed this away from matching cards. Current references lean toward editorial contrast:
+                  one anchored narrative column and one flowing capability ledger.
+                </p>
+              </div>
+
+              <div className="mt-10 max-w-sm border-t border-dashed border-black/10 pt-7 lg:mt-16">
+                <p className="font-mono text-[10px] tracking-[0.3em] text-black/35 uppercase">
+                  Workflow marginalia
+                </p>
+                <div className="mt-4 grid grid-cols-[88px_1fr] gap-x-4 gap-y-3 text-[11px] uppercase sm:text-[12px]">
+                  <span className="font-mono tracking-[0.24em] text-black/30">Editor</span>
+                  <span className="font-black tracking-[0.18em] text-black/74">Neovim</span>
+                  <span className="font-mono tracking-[0.24em] text-black/30">OS</span>
+                  <span className="font-black tracking-[0.18em] text-black/74">Arch Linux</span>
+                  <span className="font-mono tracking-[0.24em] text-black/30">Terminal</span>
+                  <span className="font-black tracking-[0.18em] text-black/74">tmux / zsh</span>
+                  <span className="font-mono tracking-[0.24em] text-black/30">Git style</span>
+                  <span className="font-black tracking-[0.18em] text-black/74">Small commits, clean diffs</span>
+                </div>
+              </div>
             </div>
           </div>
 
