@@ -79,6 +79,7 @@ export default function Home() {
 
       let lenis: Lenis | null = null;
       let tickerFn: ((time: number) => void) | null = null;
+      let heroHoverCleanup: (() => void) | null = null;
 
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set("[data-animate]", { clearProps: "all" });
@@ -106,7 +107,7 @@ export default function Home() {
         const heroTimeline = gsap.timeline({ defaults: { ease: "power2.out" } });
 
         heroTimeline
-          .from("[data-hero-backdrop] h1", {
+          .from("[data-hero-word]", {
             yPercent: 18,
             autoAlpha: 0,
             duration: 1.1,
@@ -156,6 +157,46 @@ export default function Home() {
             scrub: 1,
           },
         });
+
+        // ── Hero backdrop hover ─────────────────────────────────────────
+        const hero = container.current?.querySelector<HTMLElement>("[data-hero]");
+        const heroBackdrop = container.current?.querySelector<HTMLElement>("[data-hero-backdrop]");
+        const heroBackdropFill = container.current?.querySelector<HTMLElement>("[data-hero-backdrop-fill]");
+        const heroWash = container.current?.querySelector<SVGGElement>("[data-hero-wash]");
+
+        if (hero && heroBackdrop && heroBackdropFill && heroWash) {
+          const fillOpacity = gsap.quickTo(heroBackdropFill, "opacity", { duration: 0.5, ease: "power2.out" });
+          const washX = gsap.quickTo(heroWash, "x", { duration: 0.72, ease: "power3.out" });
+          const washY = gsap.quickTo(heroWash, "y", { duration: 0.72, ease: "power3.out" });
+
+          gsap.set(heroBackdropFill, { opacity: 0 });
+          gsap.set(heroBackdrop, { x: 0, y: 0 });
+          gsap.set(heroWash, { x: 800, y: 420 });
+
+          const handlePointerMove = (event: PointerEvent) => {
+            const rect = hero.getBoundingClientRect();
+            const px = (event.clientX - rect.left) / rect.width;
+            const py = (event.clientY - rect.top) / rect.height;
+
+            washX(180 + px * 1240);
+            washY(140 + py * 500);
+            fillOpacity(1);
+          };
+
+          const handlePointerLeave = () => {
+            washX(800);
+            washY(450);
+            fillOpacity(0);
+          };
+
+          hero.addEventListener("pointermove", handlePointerMove);
+          hero.addEventListener("pointerleave", handlePointerLeave);
+
+          heroHoverCleanup = () => {
+            hero.removeEventListener("pointermove", handlePointerMove);
+            hero.removeEventListener("pointerleave", handlePointerLeave);
+          };
+        }
 
         // ── Ambient hero glow ───────────────────────────────────────────
         gsap.to("[data-ambient-glow]", {
@@ -339,6 +380,7 @@ export default function Home() {
       });
 
       return () => {
+        heroHoverCleanup?.();
         mm.revert();
         lenis?.destroy();
         if (tickerFn) gsap.ticker.remove(tickerFn);
@@ -382,24 +424,154 @@ export default function Home() {
 
         <div
           data-hero-backdrop
-          className="pointer-events-none absolute inset-0 flex select-none items-center justify-center overflow-hidden px-4 opacity-[0.07]"
+          className="pointer-events-none absolute inset-0 overflow-hidden"
         >
-          <div className="relative flex flex-col items-center justify-center">
-            <h1
-              data-animate
-              className="text-[max(15vw,120px)] text-center text-transparent font-black leading-none uppercase md:text-[20vw]"
-              style={{ WebkitTextStroke: "1px rgba(0,0,0,1)" }}
+          <svg
+            viewBox="0 0 1600 900"
+            className="h-full w-full"
+            preserveAspectRatio="xMidYMid slice"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id="heroTextWash" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#0F1110" stopOpacity="0.015" />
+                <stop offset="38%" stopColor="#161918" stopOpacity="0.1" />
+                <stop offset="52%" stopColor="#73BEB1" stopOpacity="0.06" />
+                <stop offset="68%" stopColor="#161918" stopOpacity="0.12" />
+                <stop offset="100%" stopColor="#0F1110" stopOpacity="0.02" />
+              </linearGradient>
+              <filter id="heroWashBlur" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="34" />
+              </filter>
+              <filter id="heroWashGrain" x="-20%" y="-20%" width="140%" height="140%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="2" seed="7" result="noise" />
+                <feColorMatrix
+                  in="noise"
+                  type="matrix"
+                  values="1 0 0 0 0
+                          0 1 0 0 0
+                          0 0 1 0 0
+                          0 0 0 0.18 0"
+                />
+              </filter>
+              <mask id="heroWashMask" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
+                <rect x="0" y="0" width="1600" height="900" fill="black" />
+                <g data-hero-wash filter="url(#heroWashBlur)">
+                  <ellipse cx="0" cy="0" rx="220" ry="108" fill="white" opacity="0.18" />
+                  <rect x="-340" y="-38" width="680" height="76" rx="38" fill="white" opacity="0.84" transform="rotate(-12)" />
+                  <rect x="-200" y="-14" width="400" height="28" rx="14" fill="white" opacity="0.42" transform="rotate(-12)" />
+                </g>
+              </mask>
+            </defs>
+
+            <g
+              fill="none"
+              stroke="rgba(0,0,0,0.9)"
+              strokeOpacity="0.09"
+              strokeWidth="1.6"
+              textAnchor="middle"
+              fontFamily="var(--font-geist-sans), sans-serif"
+              fontWeight="900"
+              letterSpacing="-0.06em"
+              className="uppercase"
             >
-              SYSTEMS
-            </h1>
-            <h1
-              data-animate
-              className="mt-[-5vw] text-[max(15vw,120px)] text-center text-transparent font-black leading-none uppercase md:text-[20vw]"
-              style={{ WebkitTextStroke: "1px rgba(0,0,0,1)" }}
-            >
-              ARCHIVE
-            </h1>
-          </div>
+              <text data-hero-word x="50%" y="44%" fontSize="320">
+                SYSTEMS
+              </text>
+              <text data-hero-word x="50%" y="71%" fontSize="320">
+                ARCHIVE
+              </text>
+            </g>
+
+            <g data-hero-backdrop-fill opacity="0" mask="url(#heroWashMask)" textAnchor="middle">
+              <text
+                x="50%"
+                y="44%"
+                fontSize="320"
+                fontFamily="var(--font-geist-sans), sans-serif"
+                fontWeight="900"
+                letterSpacing="-0.06em"
+                fill="url(#heroTextWash)"
+                fillOpacity="0.72"
+                className="uppercase"
+              >
+                SYSTEMS
+              </text>
+              <text
+                x="50%"
+                y="71%"
+                fontSize="320"
+                fontFamily="var(--font-geist-sans), sans-serif"
+                fontWeight="900"
+                letterSpacing="-0.06em"
+                fill="url(#heroTextWash)"
+                fillOpacity="0.72"
+                className="uppercase"
+              >
+                ARCHIVE
+              </text>
+
+              <text
+                x="50%"
+                y="44%"
+                fontSize="320"
+                fontFamily="var(--font-geist-sans), sans-serif"
+                fontWeight="900"
+                letterSpacing="-0.06em"
+                fill="#111111"
+                fillOpacity="0.08"
+                filter="url(#heroWashGrain)"
+                className="uppercase"
+              >
+                SYSTEMS
+              </text>
+              <text
+                x="50%"
+                y="71%"
+                fontSize="320"
+                fontFamily="var(--font-geist-sans), sans-serif"
+                fontWeight="900"
+                letterSpacing="-0.06em"
+                fill="#111111"
+                fillOpacity="0.08"
+                filter="url(#heroWashGrain)"
+                className="uppercase"
+              >
+                ARCHIVE
+              </text>
+
+              <text
+                x="50%"
+                y="44%"
+                fontSize="320"
+                fontFamily="var(--font-geist-sans), sans-serif"
+                fontWeight="900"
+                letterSpacing="-0.06em"
+                fill="none"
+                stroke="#0F1110"
+                strokeOpacity="0.08"
+                strokeWidth="1.8"
+                className="uppercase"
+              >
+                SYSTEMS
+              </text>
+              <text
+                x="50%"
+                y="71%"
+                fontSize="320"
+                fontFamily="var(--font-geist-sans), sans-serif"
+                fontWeight="900"
+                letterSpacing="-0.06em"
+                fill="none"
+                stroke="#0F1110"
+                strokeOpacity="0.08"
+                strokeWidth="1.8"
+                className="uppercase"
+              >
+                ARCHIVE
+              </text>
+            </g>
+          </svg>
         </div>
 
         <div
