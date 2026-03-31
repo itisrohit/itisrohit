@@ -175,6 +175,21 @@ export default function Home() {
         const overlays = Array.from(
           root.querySelectorAll<HTMLElement>("[data-project-overlay]"),
         );
+        const timelinePanels = Array.from(
+          root.querySelectorAll<HTMLElement>("[data-track-panel]"),
+        );
+        const timelineLines = Array.from(
+          root.querySelectorAll<HTMLElement>("[data-track-line]"),
+        );
+        const timelineTrails = Array.from(
+          root.querySelectorAll<HTMLElement>("[data-track-trail]"),
+        );
+        const timelineNodes = Array.from(
+          root.querySelectorAll<HTMLElement>("[data-track-node]"),
+        );
+        const timelineEnds = Array.from(
+          root.querySelectorAll<HTMLElement>("[data-track-end]"),
+        );
         const pinSection = root.querySelector<HTMLElement>("[data-ops-pin]");
 
         if (!pinSection || cards.length < 2) return;
@@ -187,12 +202,50 @@ export default function Home() {
           }
         });
 
+        timelinePanels.forEach((panel, i) => {
+          gsap.set(panel, {
+            autoAlpha: i === 0 ? 1 : 0.45,
+            y: i === 0 ? 0 : 10,
+          });
+        });
+
+        timelineLines.forEach((line, i) => {
+          gsap.set(line, {
+            scaleY: i === 0 ? 1 : 0.72,
+            autoAlpha: i === 0 ? 1 : 0.5,
+            transformOrigin: "top center",
+          });
+        });
+
+        timelineTrails.forEach((trail, i) => {
+          const startProgress = cards.length > 1 ? i / (cards.length - 1) : 0;
+
+          gsap.set(trail, {
+            scaleY: startProgress,
+            autoAlpha: startProgress > 0 ? 0.9 : 0.55,
+            transformOrigin: "top center",
+          });
+        });
+
+        timelineNodes.forEach((node, i) => {
+          const endNode = timelineEnds[i];
+          const dotTravel = Math.max(0, endNode.offsetTop - node.offsetTop - 2);
+          const startProgress = cards.length > 1 ? i / (cards.length - 1) : 0;
+
+          gsap.set(node, {
+            y: dotTravel * startProgress,
+            scale: i === 0 ? 1.08 : 0.82,
+            autoAlpha: i === 0 ? 1 : 0.45,
+            transformOrigin: "center center",
+          });
+        });
+
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: pinSection,
             start: "clamp(top top)",
             end: () => `+=${(cards.length - 1) * window.innerHeight}`,
-            scrub: 0.2,
+            scrub: 0.32,
             invalidateOnRefresh: true,
           },
           defaults: { ease: "none", duration: 1 },
@@ -201,9 +254,44 @@ export default function Home() {
         // Sequential pairs: one full timeline unit per card transition
         for (let i = 0; i < cards.length - 1; i++) {
           const label = `step-${i}`;
+          const dotTravel = Math.max(
+            0,
+            timelineEnds[i].offsetTop - timelineNodes[i].offsetTop - 2,
+          );
+          const nextProgress = cards.length > 1 ? (i + 1) / (cards.length - 1) : 1;
           tl.addLabel(label);
           tl.to(overlays[i], { opacity: 1 }, label);
+          tl.to(timelinePanels[i], { autoAlpha: 0.35, y: -8, duration: 0.45 }, label);
+          tl.to(timelineLines[i], { scaleY: 0.72, autoAlpha: 0.5, duration: 0.45 }, label);
+          tl.to(
+            timelineTrails[i],
+            { scaleY: nextProgress, autoAlpha: 0.7, duration: 0.5 },
+            label,
+          );
+          tl.to(
+            timelineNodes[i],
+            {
+              y: dotTravel * nextProgress,
+              scale: 0.86,
+              autoAlpha: 0.45,
+              duration: 0.5,
+              ease: "power2.out",
+            },
+            label,
+          );
           tl.to(cards[i + 1], { yPercent: 0 }, label);
+          tl.to(timelinePanels[i + 1], { autoAlpha: 1, y: 0, duration: 0.55 }, label);
+          tl.to(timelineLines[i + 1], { scaleY: 1, autoAlpha: 1, duration: 0.55 }, label);
+          tl.to(
+            timelineTrails[i + 1],
+            { autoAlpha: 0.9, duration: 0.55 },
+            label,
+          );
+          tl.to(
+            timelineNodes[i + 1],
+            { scale: 1.08, autoAlpha: 1, duration: 0.55, ease: "power2.out" },
+            label,
+          );
         }
       });
 
@@ -355,7 +443,7 @@ export default function Home() {
             style={{ top: "148px" }}
           >
             <div className="relative mx-auto h-full w-full max-w-7xl px-6 sm:px-10 lg:px-12">
-              {projects.map((project, index) => (
+              {projects.map((project) => (
                 <article
                   key={project.id}
                   data-project-card
@@ -378,14 +466,30 @@ export default function Home() {
                   </span>
 
                   <div className="relative z-0 grid h-full gap-8 lg:grid-cols-[180px_minmax(0,1fr)_260px] lg:items-center">
-                    <div className="space-y-5 border-b border-black/8 pb-5 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-8">
-                      <div className="space-y-1">
-                        <p className="font-mono text-[10px] tracking-[0.32em] text-black/40 uppercase">Record</p>
-                        <p className="text-2xl font-black tracking-[-0.06em] text-black uppercase">{project.id}</p>
-                      </div>
-                      <div className="space-y-1">
-                        <p className="font-mono text-[10px] tracking-[0.32em] text-black/40 uppercase">Year</p>
-                        <p className="text-sm font-medium tracking-[0.2em] text-black/65 uppercase">{project.year}</p>
+                    <div className="border-b border-black/8 pb-5 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-8">
+                      <div data-track-panel className="relative lg:-ml-2 lg:max-w-[144px] lg:pl-6">
+                        <div data-track-line className="absolute bottom-1 left-[5px] top-1 w-px bg-black/12" />
+                        <div
+                          data-track-trail
+                          className="absolute left-[5px] top-1 w-px origin-top bg-gradient-to-b from-[#73BEB1]/75 via-[#73BEB1]/35 to-transparent"
+                          style={{ height: "calc(100% - 8px)" }}
+                        />
+                        <span data-track-node className="absolute left-[1px] top-1.5 h-[9px] w-[9px] rounded-full border border-[#73BEB1]/50 bg-[#73BEB1]/22 shadow-[0_0_0_4px_rgba(250,249,246,0.96)]" />
+                        <span data-track-end className="absolute bottom-1 left-[3px] h-[5px] w-[5px] rounded-full bg-black/10 shadow-[0_0_0_4px_rgba(250,249,246,0.96)]" />
+
+                        <div className="space-y-3">
+                          <div className="space-y-2">
+                            <div className="flex items-center gap-2">
+                              <span className="h-px w-6 bg-[#73BEB1]/55" />
+                              <p className="font-mono text-[10px] tracking-[0.32em] text-black/42 uppercase">Filed</p>
+                            </div>
+                            <p className="pl-8 text-[2rem] font-black leading-none tracking-[-0.08em] text-black uppercase">{project.year}</p>
+                          </div>
+
+                          <div className="pl-8 pt-1">
+                            <p className="font-mono text-[9px] tracking-[0.28em] text-black/28 uppercase">Current archive</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
@@ -409,10 +513,7 @@ export default function Home() {
                         <p className="font-mono text-[10px] tracking-[0.32em] text-black/40 uppercase">Outcome</p>
                         <p className="text-lg font-black leading-tight tracking-[-0.04em] text-black uppercase">{project.result}</p>
                       </div>
-                      <div className="flex items-center justify-between border-t border-dashed border-black/10 pt-4">
-                        <span className="text-[10px] font-medium tracking-[0.28em] text-black/40 uppercase">
-                          Layer {String(index + 1).padStart(2, "0")}
-                        </span>
+                      <div className="flex items-center justify-end border-t border-dashed border-black/10 pt-4">
                         <span className="text-xs font-black tracking-[0.16em] text-black uppercase">
                           View Case
                         </span>
