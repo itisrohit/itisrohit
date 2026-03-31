@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ROHIT KUMAR | Backend & Arch",
+  title: "Rohit - Portfolio",
   description: "Backend-first developer focusing on architecture, distributed systems, and clean infrastructure.",
 };
 
