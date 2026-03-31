@@ -196,9 +196,26 @@ export default function Home() {
 
         // Set initial stacking: card[i+1] slides over card[i] so needs higher z
         cards.forEach((card, i) => {
-          gsap.set(card, { zIndex: i + 1 });
+          const drift = i % 2 === 0 ? 1.8 : -1.8;
+
+          gsap.set(card, {
+            zIndex: i + 1,
+            transformOrigin: "50% 8%",
+            boxShadow: i === 0
+              ? "0 4px 14px rgba(17,17,17,0.03), 0 1px 2px rgba(17,17,17,0.02)"
+              : "0 2px 8px rgba(17,17,17,0.02)",
+          });
+
           if (i > 0) {
-            gsap.set(card, { yPercent: 100, willChange: "transform" });
+            gsap.set(card, {
+              yPercent: 104,
+              xPercent: drift,
+              rotation: drift > 0 ? 0.22 : -0.22,
+              scale: 0.996,
+              willChange: "transform",
+            });
+          } else {
+            gsap.set(card, { xPercent: 0, rotation: 0, scale: 1 });
           }
         });
 
@@ -254,6 +271,7 @@ export default function Home() {
         // Sequential pairs: one full timeline unit per card transition
         for (let i = 0; i < cards.length - 1; i++) {
           const label = `step-${i}`;
+          const drift = (i + 1) % 2 === 0 ? 1.8 : -1.8;
           const dotTravel = Math.max(
             0,
             timelineEnds[i].offsetTop - timelineNodes[i].offsetTop - 2,
@@ -279,7 +297,32 @@ export default function Home() {
             },
             label,
           );
-          tl.to(cards[i + 1], { yPercent: 0 }, label);
+          tl.to(
+            cards[i],
+            {
+              yPercent: -1.2,
+              xPercent: drift * -0.12,
+              rotation: drift * -0.025,
+              scale: 0.994,
+              boxShadow: "0 1px 4px rgba(17,17,17,0.015)",
+              duration: 0.62,
+              ease: "power2.out",
+            },
+            label,
+          );
+          tl.to(
+            cards[i + 1],
+            {
+              yPercent: 0,
+              xPercent: 0,
+              rotation: 0,
+              scale: 1,
+              boxShadow: "0 4px 14px rgba(17,17,17,0.03), 0 1px 2px rgba(17,17,17,0.02)",
+              duration: 0.78,
+              ease: "power3.out",
+            },
+            label,
+          );
           tl.to(timelinePanels[i + 1], { autoAlpha: 1, y: 0, duration: 0.55 }, label);
           tl.to(timelineLines[i + 1], { scaleY: 1, autoAlpha: 1, duration: 0.55 }, label);
           tl.to(
@@ -447,7 +490,7 @@ export default function Home() {
                 <article
                   key={project.id}
                   data-project-card
-                  className="absolute inset-0 border border-black/8 bg-[linear-gradient(135deg,rgba(255,255,255,0.92),rgba(255,255,255,0.60))] px-6 py-8 backdrop-blur-[2px] sm:px-8 sm:py-10 lg:px-10"
+                  className="absolute inset-0 isolate overflow-hidden border border-black/8 bg-[linear-gradient(135deg,rgba(255,255,255,0.92),rgba(255,255,255,0.60))] px-6 py-8 backdrop-blur-[2px] [backface-visibility:hidden] [transform:translateZ(0)] sm:px-8 sm:py-10 lg:px-10"
                 >
                   {/* Frosted exit overlay — opacity animated 0→1 to fake blur-out */}
                   <div
