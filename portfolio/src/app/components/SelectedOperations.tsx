@@ -202,10 +202,10 @@ export function SelectedOperations() {
           <div className="border-b border-black/8 pb-8">
             <span className="inline-flex items-center gap-3 text-[10px] font-black tracking-[0.4em] text-[#73BEB1] uppercase">
               <span className="h-px w-8 bg-[#73BEB1]/50" />
-              Archive.01
+              01 / Projects
             </span>
             <h3 className="mt-3 max-w-md text-4xl font-black uppercase leading-[0.9] tracking-[-0.06em] text-black sm:text-5xl lg:text-6xl">
-              Selected Operations
+              Selected Projects
             </h3>
           </div>
         </div>
@@ -235,7 +235,10 @@ export function SelectedOperations() {
                 />
 
                 <div className="pointer-events-none absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-black/10 to-transparent" />
-                <span className="pointer-events-none absolute right-4 top-3 select-none text-[4.25rem] font-black leading-none tracking-[-0.08em] text-black/[0.04] sm:right-6 sm:text-[7rem] lg:text-[8rem]">
+                <span 
+                  className="pointer-events-none absolute right-4 top-3 select-none font-mono text-[4.25rem] font-black leading-none tracking-[0.02em] text-black/[0.08] sm:right-6 sm:text-[7rem] lg:text-[8rem]"
+                  style={{ fontFeatureSettings: "'zero' 1" }}
+                >
                   {project.id}
                 </span>
 
@@ -248,7 +251,7 @@ export function SelectedOperations() {
                             <span className="h-px w-5 bg-[#73BEB1]/55" />
                             <p className="font-mono text-[10px] tracking-[0.28em] text-black/42 uppercase">Filed</p>
                           </div>
-                          <p className="text-[2.15rem] font-black leading-none tracking-[-0.08em] text-black uppercase">{project.year}</p>
+                          <p className="text-[2.15rem] font-black leading-none tracking-[-0.04em] text-black uppercase">{project.year}</p>
                           <p className="font-mono text-[9px] tracking-[0.24em] text-black/28 uppercase">Current archive</p>
                         </div>
                       </div>
@@ -270,7 +273,7 @@ export function SelectedOperations() {
                             <span className="h-px w-6 bg-[#73BEB1]/55" />
                             <p className="font-mono text-[10px] tracking-[0.32em] text-black/42 uppercase">Filed</p>
                           </div>
-                          <p className="pl-8 text-[1.9rem] font-black leading-none tracking-[-0.08em] text-black uppercase lg:text-[2rem]">{project.year}</p>
+                          <p className="pl-8 text-[1.9rem] font-black leading-none tracking-[-0.04em] text-black uppercase lg:text-[2rem]">{project.year}</p>
                         </div>
 
                         <div className="pl-8 pt-1">
@@ -288,8 +291,20 @@ export function SelectedOperations() {
                       <span className="text-[10px] font-black tracking-[0.28em] text-[#73BEB1] uppercase">{project.tech}</span>
                     </div>
                     <div className="space-y-2 lg:space-y-3">
-                      <h4 className="text-[2rem] font-black leading-[0.92] tracking-[-0.065em] text-black uppercase sm:text-4xl lg:text-[3.6rem]">
-                        {project.name}
+                      <h4 
+                        className="text-[2rem] font-black leading-[0.92] tracking-[-0.03em] text-black uppercase sm:text-4xl lg:text-[3.6rem]"
+                      >
+                        {project.name.split(/(\d+)/).map((part, i) => (
+                          part.match(/\d+/) ? (
+                            <span 
+                              key={i} 
+                              className="font-mono text-[1.25em] text-black" 
+                              style={{ fontFeatureSettings: "'zero' 1" }}
+                            >
+                              {part}
+                            </span>
+                          ) : part
+                        ))}
                       </h4>
                       <p className="max-w-[29ch] text-[15px] leading-7 text-black/58 sm:max-w-2xl sm:text-[15px] sm:leading-8">{project.desc}</p>
                     </div>
@@ -301,9 +316,14 @@ export function SelectedOperations() {
                       <p className="max-w-[12ch] text-[1.15rem] font-black leading-[0.98] tracking-[-0.05em] text-black uppercase sm:text-lg sm:leading-tight sm:tracking-[-0.04em] lg:max-w-none lg:text-lg">{project.result}</p>
                     </div>
                     <div className="flex items-center justify-end border-t border-dashed border-black/10 pt-3 lg:pt-4">
-                      <span className="text-xs font-black tracking-[0.16em] text-black uppercase">
-                        View Case
-                      </span>
+                      <a 
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="cursor-pointer text-xs font-black tracking-[0.16em] text-black uppercase transition-colors hover:text-[#73BEB1]"
+                      >
+                        Inspect Source
+                      </a>
                     </div>
                   </div>
                 </div>

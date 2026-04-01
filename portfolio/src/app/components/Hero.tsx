@@ -322,25 +322,17 @@ export function Hero() {
         data-hero-meta
         className="pointer-events-none absolute inset-x-0 inset-y-0 z-20 hidden flex-col justify-between p-12 md:flex"
       >
-        <div className="flex justify-end pt-4">
-          <p data-animate className="font-mono text-[10px] font-medium leading-none tracking-[0.3em] text-black/40 uppercase">
-            Available for select work
-          </p>
-        </div>
+        <div className="flex justify-end pt-4" />
         <div className="flex items-end justify-between pb-12">
           <div data-animate className="max-w-[30rem] flex flex-col gap-3">
             <h2 className="text-3xl font-black leading-tight tracking-tight tracking-[-0.05em] text-black uppercase">
-              Backend First Developer
+              Backend Developer
             </h2>
             <p className="text-[11px] font-black tracking-[0.1em] text-[#73BEB1] uppercase">
-              Architecture / Core Systems
+              Node.js / Bun / Go
             </p>
             <p className="max-w-[34ch] text-sm leading-6 text-black/60">
-              I build scalable backend systems, APIs, and product architecture for web products that need
-              speed, reliability, and clean execution.
-            </p>
-            <p className="font-mono text-[10px] tracking-[0.22em] text-black/36 uppercase">
-              Bun / Node.js / Next.js / Distributed systems / Open for select work
+              Developer focused on the architecture and internal mechanics of distributed systems. 
             </p>
             <div className="pt-2">
               <a 
@@ -358,13 +350,13 @@ export function Hero() {
       <div className="absolute inset-x-0 bottom-0 z-20 px-6 pb-8 sm:px-10 md:hidden">
         <div data-animate className="max-w-[22rem] space-y-2">
           <h2 className="text-2xl font-black leading-tight tracking-[-0.05em] text-black uppercase">
-            Backend First Developer
+            Backend Developer
           </h2>
           <p className="text-[10px] font-black tracking-[0.12em] text-[#73BEB1] uppercase">
-            Architecture / Core Systems
+            Node.js / Bun / Go
           </p>
           <p className="max-w-[28ch] text-sm leading-6 text-black/60">
-            I build scalable backend systems, APIs, and product architecture for fast-moving web products.
+            Developer focused on the architecture and internal mechanics of distributed systems. 
           </p>
           <div data-animate className="pt-2">
             <a 
