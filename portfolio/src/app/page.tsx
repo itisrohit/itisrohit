@@ -1,74 +1,16 @@
 "use client";
 
-import { useRef} from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import mainPortrait from "../../public/mainpic.png";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Lenis from "lenis";
+import { projects, capabilities, workflowMarginalia } from "./data";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const projects = [
-  {
-    id: "01",
-    name: "SYNTAX_CORE",
-    year: "2024",
-    tech: "Go / Distributed / gRPC",
-    tag: "Realtime Infrastructure",
-    result: "42ms median sync window",
-    desc: "High-performance distributed engine for real-time massive data synchronization.",
-  },
-  {
-    id: "02",
-    name: "QUANTUM_FLOW",
-    year: "2023",
-    tech: "Node / Bun / Event-driven",
-    tag: "Message Systems",
-    result: "1.2M async events routed",
-    desc: "Low-latency message broker specializing in asynchronous streams and logic handlers.",
-  },
-  {
-    id: "03",
-    name: "VOID_SCAN",
-    year: "2023",
-    tech: "Rust / Security / Micro",
-    tag: "Cloud Security",
-    result: "Continuous service anomaly scans",
-    desc: "Real-time security analyzer built for scanning cloud-scale microservice architectures.",
-  },
-  {
-    id: "04",
-    name: "NEURAL_GRID",
-    year: "2022",
-    tech: "C++ / Vector / Search",
-    tag: "Semantic Retrieval",
-    result: "Sub-second vector recall",
-    desc: "Distributed vector database optimized for high-dimensional semantic search engines.",
-  },
-] as const;
-
-const capabilities = [
-  {
-    category: "Protocol",
-    code: "P-01",
-    summary: "Runtime and language choices for transport, concurrency, and low-level throughput.",
-    items: ["Go / gRPC", "Rust Core", "Node.js (Bun)", "C++ Systems"],
-  },
-  {
-    category: "Infrastructure",
-    code: "I-02",
-    summary: "Data, caching, orchestration, and edge delivery tuned for resilient production systems.",
-    items: ["PostgreSQL", "Redis / Memcached", "Docker / K8s", "AWS / Cloudflare Edge"],
-  },
-  {
-    category: "Core Logic",
-    code: "L-03",
-    summary: "Architectural patterns used to keep high-volume services predictable and maintainable.",
-    items: ["Distributed Sync", "Event-driven Arch", "Microservices", "Low-Latency TCP"],
-  },
-] as const;
 
 export default function Home() {
   const container = useRef<HTMLDivElement>(null);
@@ -627,11 +569,15 @@ export default function Home() {
               <p className="font-mono text-[10px] tracking-[0.22em] text-black/36 uppercase">
                 Bun / Node.js / Next.js / Distributed systems / Open for select work
               </p>
-            </div>
-            <div data-animate className="flex items-center gap-3">
-              <span className="pointer-events-auto inline-flex cursor-pointer items-center border border-black/10 px-3 py-2 font-mono text-[10px] font-medium leading-none tracking-[0.24em] text-black/38 uppercase transition-all duration-300 hover:-translate-y-[1px] hover:border-black/20 hover:bg-black hover:text-[#FAF9F6]">
-                Resume / Soon
-              </span>
+              <div className="pt-2">
+                <a 
+                  href="/Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pointer-events-auto inline-flex cursor-pointer items-center border border-black/10 px-3 py-2 font-mono text-[10px] font-medium leading-none tracking-[0.24em] text-black/38 uppercase transition-all duration-300 hover:-translate-y-[1px] hover:border-black/20 hover:bg-black hover:text-[#FAF9F6]">
+                  Resume
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -647,6 +593,15 @@ export default function Home() {
             <p className="max-w-[28ch] text-sm leading-6 text-black/60">
               I build scalable backend systems, APIs, and product architecture for fast-moving web products.
             </p>
+            <div data-animate className="pt-2">
+              <a 
+                href="/Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="pointer-events-auto inline-flex cursor-pointer items-center border border-black/10 px-3 py-2 font-mono text-[10px] font-medium leading-none tracking-[0.24em] text-black/38 uppercase transition-all duration-300 hover:-translate-y-[1px] hover:border-black/20 hover:bg-black hover:text-[#FAF9F6]">
+                Resume
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -792,14 +747,12 @@ export default function Home() {
                   Workflow marginalia
                 </p>
                 <div className="mt-4 grid grid-cols-[88px_1fr] gap-x-4 gap-y-3 text-[11px] uppercase sm:text-[12px]">
-                  <span className="font-mono tracking-[0.24em] text-black/30">Editor</span>
-                  <span className="font-black tracking-[0.18em] text-black/74">Neovim</span>
-                  <span className="font-mono tracking-[0.24em] text-black/30">OS</span>
-                  <span className="font-black tracking-[0.18em] text-black/74">Arch Linux</span>
-                  <span className="font-mono tracking-[0.24em] text-black/30">Terminal</span>
-                  <span className="font-black tracking-[0.18em] text-black/74">tmux / zsh</span>
-                  <span className="font-mono tracking-[0.24em] text-black/30">Git style</span>
-                  <span className="font-black tracking-[0.18em] text-black/74">Small commits, clean diffs</span>
+                  {workflowMarginalia.map((item) => (
+                    <React.Fragment key={item.label}>
+                      <span className="font-mono tracking-[0.24em] text-black/30">{item.label}</span>
+                      <span className="font-black tracking-[0.18em] text-black/74">{item.value}</span>
+                    </React.Fragment>
+                  ))}
                 </div>
               </div>
             </div>
