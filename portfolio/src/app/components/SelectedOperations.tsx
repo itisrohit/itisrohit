@@ -215,16 +215,13 @@ export function SelectedOperations() {
           below (yPercent:100) are invisible until GSAP slides them up.
           top:148px clears the header strip above.
         */}
-        <div
-          className="absolute inset-x-0 bottom-0 overflow-hidden"
-          style={{ top: "148px" }}
-        >
+        <div className="absolute inset-x-0 bottom-0 top-[132px] overflow-hidden sm:top-[148px]">
           <div className="relative mx-auto h-full w-full max-w-7xl px-6 sm:px-10 lg:px-12">
             {projects.map((project) => (
               <article
                 key={project.id}
                 data-project-card
-                className="absolute inset-0 isolate overflow-hidden border border-black/8 bg-[linear-gradient(135deg,rgba(255,255,255,0.92),rgba(255,255,255,0.60))] px-6 py-8 backdrop-blur-[2px] [backface-visibility:hidden] [transform:translateZ(0)] sm:px-8 sm:py-10 lg:px-10"
+                className="absolute inset-0 isolate overflow-hidden border border-black/8 bg-[linear-gradient(135deg,rgba(255,255,255,0.92),rgba(255,255,255,0.60))] px-5 py-4 backdrop-blur-[2px] [backface-visibility:hidden] [transform:translateZ(0)] sm:px-8 sm:py-8 lg:px-10 lg:py-10"
               >
                 {/* Frosted exit overlay — opacity animated 0→1 to fake blur-out */}
                 <div
@@ -238,13 +235,26 @@ export function SelectedOperations() {
                 />
 
                 <div className="pointer-events-none absolute inset-y-0 right-0 w-px bg-gradient-to-b from-transparent via-black/10 to-transparent" />
-                <span className="pointer-events-none absolute right-4 top-3 select-none text-[5rem] font-black leading-none tracking-[-0.08em] text-black/[0.04] sm:right-6 sm:text-[7rem] lg:text-[8rem]">
+                <span className="pointer-events-none absolute right-4 top-3 select-none text-[4.25rem] font-black leading-none tracking-[-0.08em] text-black/[0.04] sm:right-6 sm:text-[7rem] lg:text-[8rem]">
                   {project.id}
                 </span>
 
-                <div className="relative z-0 grid h-full gap-8 lg:grid-cols-[180px_minmax(0,1fr)_260px] lg:items-center">
-                  <div className="border-b border-black/8 pb-5 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-8">
-                    <div data-track-panel className="relative lg:-ml-2 lg:max-w-[144px] lg:pl-6">
+                <div className="relative z-0 flex h-full flex-col gap-4 lg:grid lg:grid-cols-[180px_minmax(0,1fr)_260px] lg:items-center lg:gap-8">
+                  <div className="shrink-0 border-b border-black/8 pb-4 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-8">
+                    <div className="lg:hidden">
+                      <div className="flex items-start gap-4">
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2">
+                            <span className="h-px w-5 bg-[#73BEB1]/55" />
+                            <p className="font-mono text-[10px] tracking-[0.28em] text-black/42 uppercase">Filed</p>
+                          </div>
+                          <p className="text-[2.15rem] font-black leading-none tracking-[-0.08em] text-black uppercase">{project.year}</p>
+                          <p className="font-mono text-[9px] tracking-[0.24em] text-black/28 uppercase">Current archive</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div data-track-panel className="relative hidden lg:-ml-2 lg:block lg:max-w-[144px] lg:pl-6">
                       <div data-track-line className="absolute bottom-1 left-[5px] top-1 w-px bg-black/12" />
                       <div
                         data-track-trail
@@ -254,13 +264,13 @@ export function SelectedOperations() {
                       <span data-track-node className="absolute left-[1px] top-1.5 h-[9px] w-[9px] rounded-full border border-[#73BEB1]/50 bg-[#73BEB1]/22 shadow-[0_0_0_4px_rgba(250,249,246,0.96)]" />
                       <span data-track-end className="absolute bottom-1 left-[3px] h-[5px] w-[5px] rounded-full bg-black/10 shadow-[0_0_0_4px_rgba(250,249,246,0.96)]" />
 
-                      <div className="space-y-3">
-                        <div className="space-y-2">
+                      <div className="space-y-2.5 lg:space-y-3">
+                        <div className="space-y-1.5 lg:space-y-2">
                           <div className="flex items-center gap-2">
                             <span className="h-px w-6 bg-[#73BEB1]/55" />
                             <p className="font-mono text-[10px] tracking-[0.32em] text-black/42 uppercase">Filed</p>
                           </div>
-                          <p className="pl-8 text-[2rem] font-black leading-none tracking-[-0.08em] text-black uppercase">{project.year}</p>
+                          <p className="pl-8 text-[1.9rem] font-black leading-none tracking-[-0.08em] text-black uppercase lg:text-[2rem]">{project.year}</p>
                         </div>
 
                         <div className="pl-8 pt-1">
@@ -270,27 +280,27 @@ export function SelectedOperations() {
                     </div>
                   </div>
 
-                  <div className="space-y-5">
-                    <div className="flex flex-wrap items-center gap-3">
+                  <div className="flex flex-1 flex-col justify-center space-y-3 lg:block lg:space-y-5">
+                    <div className="flex flex-wrap items-center gap-2 lg:gap-3">
                       <span className="border border-black/10 px-3 py-1 font-mono text-[10px] tracking-[0.24em] text-black/55 uppercase">
                         {project.tag}
                       </span>
                       <span className="text-[10px] font-black tracking-[0.28em] text-[#73BEB1] uppercase">{project.tech}</span>
                     </div>
-                    <div className="space-y-3">
-                      <h4 className="text-3xl font-black leading-none tracking-[-0.06em] text-black uppercase sm:text-4xl lg:text-[3.6rem]">
+                    <div className="space-y-2 lg:space-y-3">
+                      <h4 className="text-[2rem] font-black leading-[0.92] tracking-[-0.065em] text-black uppercase sm:text-4xl lg:text-[3.6rem]">
                         {project.name}
                       </h4>
-                      <p className="max-w-2xl text-sm leading-7 text-black/58 sm:text-[15px]">{project.desc}</p>
+                      <p className="max-w-[29ch] text-[15px] leading-7 text-black/58 sm:max-w-2xl sm:text-[15px] sm:leading-8">{project.desc}</p>
                     </div>
                   </div>
 
-                  <div className="grid gap-4 border-t border-black/8 pt-5 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
-                    <div className="space-y-2">
+                  <div className="grid gap-3 border-t border-black/8 pt-4 lg:gap-4 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+                    <div className="space-y-1.5 lg:space-y-2">
                       <p className="font-mono text-[10px] tracking-[0.32em] text-black/40 uppercase">Outcome</p>
-                      <p className="text-lg font-black leading-tight tracking-[-0.04em] text-black uppercase">{project.result}</p>
+                      <p className="max-w-[12ch] text-[1.15rem] font-black leading-[0.98] tracking-[-0.05em] text-black uppercase sm:text-lg sm:leading-tight sm:tracking-[-0.04em] lg:max-w-none lg:text-lg">{project.result}</p>
                     </div>
-                    <div className="flex items-center justify-end border-t border-dashed border-black/10 pt-4">
+                    <div className="flex items-center justify-end border-t border-dashed border-black/10 pt-3 lg:pt-4">
                       <span className="text-xs font-black tracking-[0.16em] text-black uppercase">
                         View Case
                       </span>
